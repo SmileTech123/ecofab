@@ -1,0 +1,36 @@
+<h2 mat-dialog-title>Aggiungi Spesa</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field class="example-full-width">
+    <mat-label>Seleziona data</mat-label>
+    <input [value]="date" matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Nome</mat-label>
+    <input matInput value="">
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Categoria</mat-label>
+    <mat-select>
+      <mat-option [value]="'S'">Spesa</mat-option>
+      <mat-option [value]="'D'">Divertimento</mat-option>
+      <mat-option [value]="'A'">Auto</mat-option>
+      <mat-option [value]="'C'">Casa</mat-option>
+      <mat-option [value]="'B'">Bollette</mat-option>
+      <mat-option [value]="'E'">Entrata</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Importo</mat-label>
+    <input type="number" matInput value="">
+    <mat-icon matSuffix>euro</mat-icon>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Chiudi</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Salva</button>
+</mat-dialog-actions>

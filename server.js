@@ -16,13 +16,33 @@ app.get('/saldo', (req, res) => {
   })
 })
 
-app.get('/movimenti', (req, res) => {
-  var sql = "SELECT * FROM ecofab"
+app.get('/movimentiGiorno', (req, res) => {
+  var sql = "SELECT * FROM ecofab\n" +
+    "WHERE datetime(data/1000, 'unixepoch', 'localtime') >= date('now')\n" +
+    "AND datetime(data/1000, 'unixepoch', 'localtime') < date('now', '+1 day');\n"
   db.all(sql, (err, result) => {
     res.json(result)
   })
 })
 
+
+app.get('/movimentiSettimana', (req, res) => {
+  var sql = "SELECT * FROM ecofab\n" +
+    "WHERE datetime(data/1000, 'unixepoch', 'localtime') >= date('now', 'localtime', 'weekday 0', '-6 days')\n" +
+    "AND datetime(data/1000, 'unixepoch', 'localtime') < date('now', '+1 day', 'localtime', 'weekday 0', '+1 day');\n"
+  db.all(sql, (err, result) => {
+    res.json(result)
+  })
+})
+
+app.get('/movimentiMese', (req, res) => {
+  var sql = "SELECT * FROM ecofab\n" +
+    "WHERE datetime(data/1000, 'unixepoch', 'localtime') >= date('now', 'localtime', 'start of month')\n" +
+    "AND datetime(data/1000, 'unixepoch', 'localtime') < date('now', 'localtime', 'start of month', '+1 month');\n"
+  db.all(sql, (err, result) => {
+    res.json(result)
+  })
+})
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })

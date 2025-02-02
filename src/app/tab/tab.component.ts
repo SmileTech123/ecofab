@@ -1,9 +1,11 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import {Color, LegendPosition, PieChartModule, ScaleType} from '@swimlane/ngx-charts';
 import {MatLabel} from '@angular/material/form-field';
 import {MatList, MatListItem} from '@angular/material/list';
 import {NgClass} from '@angular/common';
 import {ServiceService} from '../service.service';
+import EventEmitter from 'node:events';
+import {Observable, Subscription, take} from 'rxjs';
 
 
 @Component({
@@ -19,6 +21,10 @@ import {ServiceService} from '../service.service';
   styleUrl: './tab.component.scss'
 })
 export class TabComponent implements OnInit {
+
+  @Input() type: "G"|"M"|"S" = 'G';
+
+  spesa=0;
   service = inject(ServiceService)
   movements:any[]=[]
   results:any[]=[
@@ -60,24 +66,58 @@ export class TabComponent implements OnInit {
   protected readonly LegendPosition = LegendPosition;
 
   ngOnInit(): void {
-    this.service.getMovements().subscribe((result:any)=>{
-      console.log(result);
-      this.movements = result;
-      this.getGraphData()
-    })
+
+    this.getData();
+
+  }
+
+  getData(){
+    console.log(this.type);
+    switch (this.type) {
+      case "G":
+        this.service.getMovementsDay().subscribe((result:any)=>{
+          this.movements = result;
+          this.getGraphData()
+          this.getSpesa()
+        })
+        break;
+      case "M":
+
+        this.service.getMovementsMonth().subscribe((result:any)=>{
+          console.log(result);
+          this.movements = result;
+          this.getGraphData()
+          this.getSpesa()
+        })
+        break;
+      case "S":
+        this.service.getMovementsWeek().subscribe((result:any)=>{
+
+          this.movements = result;
+          this.getGraphData()
+          this.getSpesa()
+        })
+        break;
+    }
   }
 
   getGraphData(){
-    const sumSpesa =this.movements.filter((f)=>f.categoria==='S').reduce((n: any, {importo}: any) => n + importo, 0)
-    const sumBollette =this.movements.filter((f)=>f.categoria==='B').reduce((n: any, {importo}: any) => n + importo, 0)
-    const sumDivertimento =this.movements.filter((f)=>f.categoria==='D').reduce((n: any, {importo}: any) => n + importo, 0)
-    const sumCasa =this.movements.filter((f)=>f.categoria==='C').reduce((n: any, {importo}: any) => n + importo, 0)
-    const sumAuto =this.movements.filter((f)=>f.categoria==='A').reduce((n: any, {importo}: any) => n + importo, 0)
-    this.results.find((f)=>f.id==="S").value=sumSpesa*-1
-    this.results.find((f)=>f.id==="B").value=sumBollette*-1
-    this.results.find((f)=>f.id==="D").value=sumDivertimento*-1
-    this.results.find((f)=>f.id==="C").value=sumCasa*-1
-    this.results.find((f)=>f.id==="A").value=sumAuto*-1
-  console.log(this.results)
+    if(this.movements){
+      const sumSpesa =this.movements.filter((f)=>f.categoria==='S').reduce((n: any, {importo}: any) => n + importo, 0)
+      const sumBollette =this.movements.filter((f)=>f.categoria==='B').reduce((n: any, {importo}: any) => n + importo, 0)
+      const sumDivertimento =this.movements.filter((f)=>f.categoria==='D').reduce((n: any, {importo}: any) => n + importo, 0)
+      const sumCasa =this.movements.filter((f)=>f.categoria==='C').reduce((n: any, {importo}: any) => n + importo, 0)
+      const sumAuto =this.movements.filter((f)=>f.categoria==='A').reduce((n: any, {importo}: any) => n + importo, 0)
+      this.results.find((f)=>f.id==="S").value=sumSpesa*-1
+      this.results.find((f)=>f.id==="B").value=sumBollette*-1
+      this.results.find((f)=>f.id==="D").value=sumDivertimento*-1
+      this.results.find((f)=>f.id==="C").value=sumCasa*-1
+      this.results.find((f)=>f.id==="A").value=sumAuto*-1
+    }
+  }
+
+  getSpesa(){
+    this.spesa=this.movements.filter((f)=>f.importo<0).reduce((n: any, {importo}: any) => n + importo, 0)
+
   }
 }

@@ -12,13 +12,7 @@ const indexHtml = join(serverDistFolder, 'index.server.html');
 const app = express();
 const commonEngine = new CommonEngine();
 const sqlite3 = require("sqlite3");
-var db = new sqlite3.Database("peppe.db", (err: any, room: any) => {
-  console.log("AJADJ")
-  if (err) {
-    console.log("errore");
-    return;
-  }
-});
+
 /**
  * Example Express Rest API endpoints can be defined here.
  * Uncomment and define endpoints as necessary.

@@ -12,7 +12,15 @@ export class ServiceService {
   getSaldo(){
     return this.http.get(`${this.base}/saldo`);
   }
-  getMovements(){
-    return this.http.get(`${this.base}/movimenti`);
+  getMovementsDay(){
+    return this.http.get(`${this.base}/movimentiGiorno`);
+  }
+
+  getMovementsWeek(){
+    return this.http.get(`${this.base}/movimentiSettimana`);
+  }
+
+  getMovementsMonth(){
+    return this.http.get(`${this.base}/movimentiMese`);
   }
 }

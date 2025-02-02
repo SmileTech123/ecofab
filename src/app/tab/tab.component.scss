@@ -1,0 +1,58 @@
+.box{
+  border: 2px solid lightgray;
+  border-radius: 5px;
+  padding: 8px;
+
+}
+.category{
+  border-radius: 100px;
+  border: 2px solid;
+  width: 10px;
+  display: inline-block;
+  height: 10px;
+  margin-right: 10px;
+}
+
+.C{
+  border-color: white;
+  background-color: white;
+}
+
+.B{
+  border-color: #d92534;
+  background-color: #d92534;
+}
+
+.A{
+  border-color: #2312e0;
+  background-color: #2312e0;
+}
+
+.S{
+  border-color: #13cbcf;
+  background-color: #13cbcf;
+}
+
+.D{
+  border-color: #b57dba;
+  background-color: #b57dba;
+}
+
+.E{
+  border-color: green;
+  background-color: green;
+}
+
+.out{
+  display: inline-block;
+  color: red;
+  font-weight: bold;
+  float: right;
+}
+
+.in{
+  display: inline-block;
+  color: green;
+  font-weight: bold;
+  float: right;
+}

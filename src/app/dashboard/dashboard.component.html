@@ -5,88 +5,14 @@
 
   </mat-card-header>
   <mat-card-content>
-    <div class="saldo">250€</div>
+    <div class="saldo">{{saldo}}€</div>
     </mat-card-content>
 </mat-card>
 <mat-card appearance="outlined" class="align-center">
   <mat-card-header>
     <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
       <mat-tab label="Giorno">
-
-        <ngx-charts-pie-chart
-          [view]="view"
-          [results]="results"
-          [gradient]="true"
-          [legend]="true"
-          [legendPosition]="LegendPosition.Below"
-          [labels]="false"
-          [animations]="true"
-          [legendTitle]="'Legenda'"
-          [scheme]="colorScheme"
-          [doughnut]="true"
-
-        >
-
-        </ngx-charts-pie-chart>
-        <div style="margin-top:60px;overflow: auto;max-height: 15rem">
-          <mat-label style="font-weight: bold" >Movimenti</mat-label>
-          <mat-list role="list">
-            <mat-list-item role="listitem"><div class="box"><div class="category casa"></div>STENDINO<div class="out">-20€</div></div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box"><div class="category entrata"></div>STIPENDIO<div class="in">+400€</div></div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box"><div class="category bollette"></div>LUCE<div class="out">-25€</div></div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box"><div class="category auto"></div>BENZINA<div class="out">-40€</div></div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box"><div class="category divertimento"></div>Cena fuori<div class="out">-20€</div></div></mat-list-item>
-          </mat-list>
-        </div>
-
-      </mat-tab>
-      <mat-tab label="Settimana">  <ngx-charts-pie-chart
-        [view]="view"
-        [results]="results"
-        [gradient]="true"
-        [legend]="true"
-        [legendPosition]="LegendPosition.Below"
-        [labels]="false"
-        [animations]="true"
-        [legendTitle]="'Legenda'"
-        [scheme]="colorScheme"
-        [doughnut]="true"
-
-      >
-
-      </ngx-charts-pie-chart>
-        <div style="margin-top:60px;overflow: auto;max-height: 100px">
-          <mat-label style="font-weight: bold" >Movimenti</mat-label>
-          <mat-list role="list">
-            <mat-list-item role="listitem"><div class="box">ITEM1</div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box">ITEM2</div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box">ITEM3</div></mat-list-item>
-          </mat-list>
-        </div>
-      </mat-tab>
-      <mat-tab label="Mese">  <ngx-charts-pie-chart
-        [view]="view"
-        [results]="results"
-        [gradient]="true"
-        [legend]="true"
-        [legendPosition]="LegendPosition.Below"
-        [labels]="false"
-        [animations]="true"
-        [legendTitle]="'Legenda'"
-        [scheme]="colorScheme"
-        [doughnut]="true"
-
-      >
-
-      </ngx-charts-pie-chart>
-        <div style="margin-top:60px">
-          <mat-label style="font-weight: bold" >Movimenti</mat-label>
-          <mat-list role="list">
-            <mat-list-item role="listitem"><div class="box">ITEM1</div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box">ITEM2</div></mat-list-item>
-            <mat-list-item role="listitem"><div class="box">ITEM3</div></mat-list-item>
-          </mat-list>
-        </div>
+        <app-tab></app-tab>
       </mat-tab>
     </mat-tab-group>
 

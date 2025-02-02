@@ -10,12 +10,7 @@
 }
 
 
-.box{
-  border: 2px solid lightgray;
-  border-radius: 5px;
-  padding: 8px;
 
-}
 .customFab{
   position: absolute;
   float: right;
@@ -23,56 +18,4 @@
   bottom: 0;
 }
 
-.category{
-  border-radius: 100px;
-  border: 2px solid;
-  width: 10px;
-  display: inline-block;
-  height: 10px;
-  margin-right: 10px;
-}
-
-.casa{
-  border-color: white;
-  background-color: white;
-}
-
-.bollette{
-  border-color: #d92534;
-  background-color: #d92534;
-}
-
-.auto{
-  border-color: #2312e0;
-  background-color: #2312e0;
-}
-
-.spesa{
-  border-color: #13cbcf;
-  background-color: #13cbcf;
-}
-
-.divertimento{
-  border-color: #b57dba;
-  background-color: #b57dba;
-}
-
-.entrata{
-  border-color: green;
-  background-color: green;
-}
-
-.out{
-  display: inline-block;
-  color: red;
-  font-weight: bold;
-  float: right;
-}
-
-.in{
-  display: inline-block;
-  color: green;
-  font-weight: bold;
-  float: right;
-}
 

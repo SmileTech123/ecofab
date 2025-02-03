@@ -45,7 +45,9 @@ export class DashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if(result){
+        location.reload();
+      }
     });
   }
 

@@ -1,6 +1,6 @@
 const express = require('express')
 const app = express()
-const port = 3000
+const port = 4000
 const sqlite3 = require("sqlite3");
 const cors = require("cors");
 var db = new sqlite3.Database("ecofab.db", (err, room) => {

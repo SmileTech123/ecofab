@@ -1,0 +1,31 @@
+
+<mat-card appearance="outlined" class="align-center">
+  <mat-card-header>
+    <mat-card-title >SALDO</mat-card-title>
+
+  </mat-card-header>
+  <mat-card-content>
+    <div class="saldo">{{saldo}}€</div>
+    </mat-card-content>
+</mat-card>
+<mat-card appearance="outlined" class="align-center">
+  <mat-card-header>
+    <mat-tab-group    mat-stretch-tabs="false" mat-align-tabs="start">
+      <mat-tab label="Giorno">
+        <app-tab   type="G"></app-tab>
+      </mat-tab>
+      <mat-tab label="Settimana">
+        <app-tab   type="S"></app-tab>
+      </mat-tab>
+      <mat-tab label="Mese">
+        <app-tab  type="M"></app-tab>
+      </mat-tab>
+    </mat-tab-group>
+
+  </mat-card-header>
+</mat-card>
+<button (click)="openDialog()" class="customFab" mat-fab aria-label="Example icon button with a menu icon">
+  <mat-icon>add</mat-icon>
+</button>
+
+

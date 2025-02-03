@@ -1,0 +1,104 @@
+<mat-form-field class="example-full-width">
+  <mat-label>Tipo confronto</mat-label>
+  <mat-select [(ngModel)]="confronto">
+      <mat-option value="A">Confronta anni</mat-option>
+    <mat-option value="M">Confronta mesi</mat-option>
+  </mat-select>
+</mat-form-field>
+<br>
+
+@if (confronto==="M" ) {
+  <mat-form-field class="example-full-width">
+    <mat-label>Seleziona anno</mat-label>
+    <mat-select [(ngModel)]="anno" (ngModelChange)="getMesi()" >
+      @for(year of anni;track year){
+        <mat-option [value]="year.anno">{{ year.anno }}</mat-option>
+      }
+
+
+    </mat-select>
+  </mat-form-field>
+  @if(anno!=""){
+    <mat-form-field class="example-full-width">
+      <mat-label>Seleziona Mesi</mat-label>
+      <mat-select [(ngModel)]="mese" multiple>
+
+        @for(month of mesi;track month){
+          <mat-option [value]="month.mese">{{ month.mese }}</mat-option>
+        }
+
+      </mat-select>
+    </mat-form-field>
+  }
+  @if(mese.length>1){
+    <div style="text-align: center">
+      <button (click)="confront('M')" mat-flat-button>Confronta</button>
+    </div>
+    @if(isConfrontaMesiClicked){
+
+      <ngx-charts-bar-horizontal-2d
+        [view]="view"
+        [scheme]="colorScheme"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [animations]="true"
+        [noBarWhenZero]="false"
+        [showDataLabel]="true"
+        [showGridLines]="true"
+        [xAxis]="true"
+        [yAxis]="true"
+        [results]="dati"
+        [legend]="true"
+        [legendPosition]="LegendPosition.Below"
+        [legendTitle]="'Legenda'"
+        style="fill: white;"
+      >
+      </ngx-charts-bar-horizontal-2d>
+    }
+
+  }
+
+} @else {
+  <mat-form-field class="example-full-width">
+    <mat-label>Seleziona anni</mat-label>
+    <mat-select  [(ngModel)]="anno" multiple>
+      @for(year of anni;track year){
+        <mat-option [value]="year.anno">{{ year.anno }}</mat-option>
+      }
+
+
+    </mat-select>
+  </mat-form-field>
+
+  @if(anno.length>1){
+    <div style="text-align: center">
+      <button (click)="confront('A')" mat-flat-button>Confronta</button>
+    </div>
+
+    @if(isConfrontaAnniClicked){
+
+      <ngx-charts-bar-vertical-2d
+        [view]="view"
+        [scheme]="colorScheme"
+        [showXAxisLabel]="true"
+        [showYAxisLabel]="true"
+        [animations]="true"
+        [noBarWhenZero]="false"
+
+        [xAxis]="true"
+        [yAxis]="true"
+        [results]="dati"
+        [legend]="true"
+        [legendPosition]="LegendPosition.Below"
+
+        [legendTitle]="'Legenda'"
+        style="fill: white;"
+       >
+      </ngx-charts-bar-vertical-2d>
+    }
+
+  }
+
+
+
+}

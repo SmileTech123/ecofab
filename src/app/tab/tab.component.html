@@ -1,0 +1,27 @@
+<div style="text-align: center;font-size: 1.2rem;font-weight: bold;margin-top: 10px">SPESA TOTALE: {{spesa*-1}}€</div>
+<ngx-charts-pie-chart
+
+  [view]="view"
+  [results]="results"
+  [gradient]="true"
+  [legend]="true"
+  [legendPosition]="LegendPosition.Below"
+  [labels]="false"
+  [animations]="true"
+  [legendTitle]="'Legenda'"
+  [scheme]="colorScheme"
+  [doughnut]="true"
+
+>
+
+</ngx-charts-pie-chart>
+<div style="margin-top:60px;overflow: auto;max-height: 10rem">
+  <mat-label style="font-weight: bold" >Movimenti</mat-label>
+  <mat-list role="list">
+    @for(movement of movements;track movement.id){
+      <mat-list-item role="listitem"><div class="box"><div class="category" [ngClass]="movement.categoria"></div>
+        {{ movement.nome.toUpperCase() }}<div [ngClass]="movement.categoria==='E'?'in':'out'">{{movement.importo}}€</div></div></mat-list-item>
+    }
+
+  </mat-list>
+</div>

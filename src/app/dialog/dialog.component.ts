@@ -1,5 +1,11 @@
 import {Component, inject, OnInit} from '@angular/core';
-import {MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle} from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MatFormField, MatFormFieldModule, MatHint, MatLabel} from '@angular/material/form-field';
 import {
@@ -51,20 +57,30 @@ import {ServiceService} from '../service.service';
 })
 export class DialogComponent implements OnInit {
   service = inject(ServiceService)
-  date = "";
+  data = inject(MAT_DIALOG_DATA);
+  date :Date=new Date();
   name=""
   category=""
   import=""
+  isModify = false;
   ngOnInit(): void {
-    let today = new Date();
-    this.date = today.getFullYear() + '-' + ("0"+(today.getMonth() + 1)).substr(-2) + '-' + ("0"+today.getDate()).substr(-2)+"T"+("0"+today.getHours()).substr(-2) + ':' + ("0"+today.getMinutes() ).substr(-2) + ':' + ("0"+today.getSeconds()).substr(-2)+"Z";
-
-
+    if(this.data!=null){
+      this.isModify = true;
+      this.date = new Date(this.data.movimento.data);
+      this.name = this.data.movimento.nome;
+      this.category = this.data.movimento.categoria;
+      this.import = (this.data.movimento.importo*-1).toString();
+    }
   }
 
   saveSpesa(){
 
-    const obj = {data:new Date(this.date).getTime(),nome:this.name,categoria:this.category,importo:this.category==="E"?this.import:(Number(this.import)*-1)};
+    const obj = {data:this.date.getTime(),nome:this.name,categoria:this.category,importo:this.category==="E"?this.import:(Number(this.import)*-1)};
      this.service.addMovement(obj).subscribe()
+  }
+
+  editSpesa(){
+    const obj = {id:this.data.movimento.id, data:this.date.getTime(),nome:this.name,categoria:this.category,importo:this.category==="E"?this.import:(Number(this.import)*-1)};
+    this.service.editMovement(obj).subscribe()
   }
 }

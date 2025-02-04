@@ -1,0 +1,9 @@
+<h2 mat-dialog-title>Eliminazione movimento</h2>
+<mat-dialog-content class="mat-typography">
+<span>Sei sicuro di voler eliminare il movimento {{data.title}}?</span>
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Chiudi</button>
+  <button mat-button  [mat-dialog-close]="true"  cdkFocusInitial>Elimina</button>
+</mat-dialog-actions>

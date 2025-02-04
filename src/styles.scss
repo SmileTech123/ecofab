@@ -23,3 +23,8 @@ body {
   color: var(--mat-sys-on-surface);
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+
+.mdc-list-item__content{
+  pointer-events: all!important;
+}

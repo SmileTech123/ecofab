@@ -31,7 +31,16 @@ export class ServiceService {
   getAllMonthByYear(year:string){
     return this.http.get(`${this.base}/allExistingMonthByYears?year=${year}`);
   }
+  getMovementsByDay(dataInzio:number,datFine:number){
+    return this.http.get(`${this.base}/movimentiByGiorno?dataInizio=${dataInzio}&dataFine=${datFine}`);
+  }
 
+  deleteMovement(id:number){
+    return this.http.get(`${this.base}/eliminaMovimento?id=${id}`);
+  }
+  editMovement(obj:any){
+    return this.http.post(`${this.base}/modificaMovimento`,obj);
+  }
 
 
   addMovement(body:any){

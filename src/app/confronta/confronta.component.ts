@@ -6,6 +6,7 @@ import {ServiceService} from '../service.service';
 import {MatButton} from '@angular/material/button';
 import {BarChartModule, Color, LegendPosition, ScaleType} from '@swimlane/ngx-charts';
 import {FactoryTarget} from '@angular/compiler';
+import {MAT_DATE_LOCALE, provideNativeDateAdapter} from '@angular/material/core';
 
 
 @Component({
@@ -19,6 +20,7 @@ import {FactoryTarget} from '@angular/compiler';
     MatButton,
     BarChartModule
   ],
+
   templateUrl: './confronta.component.html',
   styleUrl: './confronta.component.scss'
 })

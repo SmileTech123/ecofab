@@ -1,0 +1,41 @@
+<div style="font-size: 1.5rem;font-weight: bold;margin: 0 auto;text-align: center">
+  <mat-label >Lista movimenti</mat-label>
+</div>
+<br>
+  <mat-form-field class="example-full-width">
+    <mat-label>Seleziona giorno</mat-label>
+    <input [(ngModel)]="giorno"  matInput [matDatepicker]="picker">
+    <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+<br>
+
+
+<div style="text-align: center">
+  <button (click)="findMovement()" mat-flat-button>Trova</button>
+</div>
+<br>
+@for(movement of movements;track movement.id){
+<mat-list-item role="listitem">
+  <div class="box">
+    <div class="category" [ngClass]="movement.categoria"></div>
+      {{ movement.nome.toUpperCase() }}
+
+    <div [ngClass]="movement.categoria==='E'?'in':'out'">
+      {{movement.importo}}€
+    </div>
+
+  </div>
+  <div class="edit">
+    <button (click)="editMovement(movement)" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button (click)="deleteMovement(movement.id,movement.nome)" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </div>
+</mat-list-item>
+
+}
+

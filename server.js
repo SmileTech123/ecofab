@@ -8,9 +8,12 @@ var db = new sqlite3.Database("ecofab.db", (err, room) => {
     console.log("errore");
   }
 });
+var NodeGoogleDrive = require("node-google-drive");
 var bodyParser = require('body-parser')
 const path = require("path");
 const distDir = path.join(__dirname, 'dist/eco-fab/browser');
+const YOUR_ROOT_FOLDER = "1D5SaQBg4Nfw3zbzaoUiabGavM49iqj42",
+  PATH_TO_CREDENTIALS = path.resolve(`${__dirname}/credential.json`);
 app.use(bodyParser.json())
 app.use(
   cors({
@@ -22,6 +25,40 @@ app.post('/aggiungiSpesa', (req, res) => {
   let body = req.body;
   db.run("INSERT INTO ecofab VALUES(NULL,?,?,?,?)",[body.data, body.nome,body.categoria,body.importo]);
 })
+
+async function WriteDb() {
+  const creds_service_user = require(PATH_TO_CREDENTIALS);
+
+  const googleDriveInstance = new NodeGoogleDrive({
+    ROOT_FOLDER: YOUR_ROOT_FOLDER,
+  });
+
+  let gdrive = await googleDriveInstance.useServiceAccountAuth(
+    creds_service_user
+  );
+  var date = new Date();
+  var dateFormatted =
+    ("0" + date.getDate()).substr(-2) +
+    "-" +
+    ("0" + (date.getMonth()+1)) +
+    "-" +
+    date.getFullYear();
+  googleDriveInstance.writeFile(
+    "ecofab.db",
+    YOUR_ROOT_FOLDER,
+    "ecofab" + dateFormatted + ".db",
+    "[*/*]"
+  );
+}
+
+setInterval(() => {
+  WriteDb();
+}, 86400000);
+
+app.get("/database", function (req, res) {
+  const file = `${__dirname}/ecofab.db`;
+  res.download(file); // Set disposition and send it.
+});
 
 app.get('/saldo', (req, res) => {
   var sql = "SELECT SUM(importo)\n" +
@@ -59,6 +96,19 @@ app.get('/movimentiMese', (req, res) => {
     res.json(result)
   })
 })
+
+app.get("/movimentiByGiorno", (req, res) => {
+  var dataInizio = req.query.dataInizio;
+  var dataFine = req.query.dataFine;
+  var sql = "SELECT * FROM ecofab\n" +
+    "  WHERE data BETWEEN "+dataInizio+" AND "+dataFine+";"
+  db.all(sql, (err, result) => {
+    res.json(result)
+  })
+
+
+})
+
 
 
 app.get("/allExistingYears", (req, res) => {
@@ -152,6 +202,25 @@ app.get("/confrontaMesi", (req, res) => {
     "ORDER BY mese;\n"
   db.all(sql, (err, result) => {
     res.json(result)
+  })
+})
+
+app.get("/eliminaMovimento", (req, res) => {
+  var id = req.query.id;
+  var sql = "DELETE FROM ecofab WHERE id=" +id
+  db.run(sql, (err, result) => {
+    res.json(result)
+  })
+})
+app.post("/modificaMovimento", (req, res) => {
+  let body = req.body;
+  let sql ="UPDATE ecofab\n" +
+    "SET data = "+body.data+", nome = '"+body.nome+"', categoria = '"+body.categoria+"',importo = "+body.importo+"\n" +
+    "WHERE id="+body.id+";"
+  console.log(sql)
+  db.run(sql, (err, result) => {
+    res.json(result)
+    console.log(result,err)
   })
 })
 

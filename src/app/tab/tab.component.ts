@@ -122,7 +122,7 @@ export class TabComponent implements AfterViewInit {
   }
 
   getSpesa(){
-    this.spesa=this.movements.filter((f)=>f.importo<0).reduce((n: any, {importo}: any) => n + importo, 0)
+    this.spesa=this.movements.filter((f)=>f.importo<0).reduce((n: any, {importo}: any) => n + importo, 0).toFixed(2)
 
   }
 }

@@ -32,5 +32,10 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <button mat-button [mat-dialog-close]="false">Chiudi</button>
-  <button mat-button  [mat-dialog-close]="true" (click)="saveSpesa()" cdkFocusInitial>Salva</button>
+  @if(isModify){
+    <button mat-button  [mat-dialog-close]="true" (click)="editSpesa()" cdkFocusInitial>Modifica</button>
+  } @else {
+    <button mat-button  [mat-dialog-close]="true" (click)="saveSpesa()" cdkFocusInitial>Salva</button>
+  }
+
 </mat-dialog-actions>

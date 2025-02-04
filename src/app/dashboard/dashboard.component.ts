@@ -37,7 +37,7 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.service.getSaldo().subscribe((result:any)=>{
-      this.saldo=result.saldo;
+      this.saldo=result.saldo.toFixed(2) ;
     })
   }
 

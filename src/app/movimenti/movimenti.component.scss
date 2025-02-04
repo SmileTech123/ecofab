@@ -66,3 +66,10 @@
   float: right;
   display: inline-block;
 }
+.textCustom{
+  text-overflow: ellipsis;
+  width: 8rem;
+  display: inline-block;
+  overflow: hidden;
+  height: 18px;
+}

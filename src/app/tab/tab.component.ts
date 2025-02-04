@@ -2,10 +2,11 @@ import {AfterViewInit, Component, inject, Input, OnInit} from '@angular/core';
 import {Color, LegendPosition, PieChartModule, ScaleType} from '@swimlane/ngx-charts';
 import {MatLabel} from '@angular/material/form-field';
 import {MatList, MatListItem} from '@angular/material/list';
-import {NgClass} from '@angular/common';
+import {DatePipe, NgClass} from '@angular/common';
 import {ServiceService} from '../service.service';
 import EventEmitter from 'node:events';
 import {Observable, Subscription, take} from 'rxjs';
+import {MatTooltip} from '@angular/material/tooltip';
 
 
 @Component({
@@ -15,7 +16,9 @@ import {Observable, Subscription, take} from 'rxjs';
     MatLabel,
     MatList,
     MatListItem,
-    NgClass
+    NgClass,
+    MatTooltip,
+    DatePipe
   ],
   templateUrl: './tab.component.html',
   styleUrl: './tab.component.scss'

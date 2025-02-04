@@ -2,7 +2,7 @@
   border: 2px solid lightgray;
   border-radius: 5px;
   padding: 8px;
-
+  height: 40px;
 }
 .category{
   border-radius: 100px;
@@ -55,4 +55,13 @@
   color: green;
   font-weight: bold;
   float: right;
+}
+
+
+.textCustom{
+    text-overflow: ellipsis;
+    width: 11rem;
+    display: inline-block;
+    overflow: hidden;
+
 }

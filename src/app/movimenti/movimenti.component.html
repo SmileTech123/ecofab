@@ -16,10 +16,10 @@
 </div>
 <br>
 @for(movement of movements;track movement.id){
-<mat-list-item role="listitem">
+<mat-list-item class="allpointer" role="listitem">
   <div class="box">
     <div class="category" [ngClass]="movement.categoria"></div>
-      {{ movement.nome.toUpperCase() }}
+    <span class="textCustom">{{ movement.nome.toUpperCase() }}</span>
 
     <div [ngClass]="movement.categoria==='E'?'in':'out'">
       {{movement.importo}}€

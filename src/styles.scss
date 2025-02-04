@@ -24,7 +24,13 @@ body {
   margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-
 .mdc-list-item__content{
-  pointer-events: all!important;
+  pointer-events: none!important;
 }
+
+.allpointer{
+  .mdc-list-item__content{
+    pointer-events: auto!important;
+  }
+}
+

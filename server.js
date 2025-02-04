@@ -71,8 +71,8 @@ app.get('/saldo', (req, res) => {
 
 app.get('/movimentiGiorno', (req, res) => {
   var sql = "SELECT * FROM ecofab\n" +
-    "WHERE datetime(data/1000, 'unixepoch', 'localtime') >= date('now')\n" +
-    "AND datetime(data/1000, 'unixepoch', 'localtime') < date('now', '+1 day') ORDER BY data DESC;\n "
+    "WHERE datetime(data/1000, 'unixepoch', 'localtime') >= date('now', 'localtime')\n" +
+    "AND datetime(data/1000, 'unixepoch', 'localtime') < date('now', 'localtime', '+1 day') ORDER BY data DESC;\n "
   db.all(sql, (err, result) => {
     res.json(result)
   })
@@ -112,7 +112,7 @@ app.get("/movimentiByGiorno", (req, res) => {
 
 
 app.get("/allExistingYears", (req, res) => {
-  var sql = "SELECT DISTINCT strftime('%Y', datetime(data / 1000, 'unixepoch')) AS anno\n" +
+  var sql = "SELECT DISTINCT strftime('%Y', datetime(data / 1000, 'unixepoch', 'localtime')) AS anno\n" +
     "FROM ecofab\n" +
     "ORDER BY anno;" ;
   db.all(sql, (err, result) => {
@@ -123,7 +123,7 @@ app.get("/allExistingYears", (req, res) => {
 app.get("/allExistingMonthByYears", (req, res) => {
   var year = req.query.year;
   var sql="SELECT DISTINCT \n" +
-    "    CASE strftime('%m', datetime(data / 1000, 'unixepoch'))\n" +
+    "    CASE strftime('%m', datetime(data / 1000, 'unixepoch', 'localtime'))\n" +
     "        WHEN '01' THEN 'Gennaio'\n" +
     "        WHEN '02' THEN 'Febbraio'\n" +
     "        WHEN '03' THEN 'Marzo'\n" +
@@ -138,8 +138,9 @@ app.get("/allExistingMonthByYears", (req, res) => {
     "        WHEN '12' THEN 'Dicembre'\n" +
     "    END AS mese\n" +
     "FROM ecofab\n" +
-    "WHERE strftime('%Y', datetime(data / 1000, 'unixepoch')) = '"+year+"'" +
+    "WHERE strftime('%Y', datetime(data / 1000, 'unixepoch', 'localtime')) = '"+year+"'" +
     "ORDER BY mese;"
+  console.log(sql)
   db.all(sql, (err, result) => {
     res.json(result)
   })
@@ -161,12 +162,12 @@ app.get("/confrontaAnni", (req, res) => {
   })
 
   var sql = "SELECT \n" +
-    "    strftime('%Y', datetime(data / 1000, 'unixepoch')) AS anno, \n" +
+    "    strftime('%Y', datetime(data / 1000, 'unixepoch', 'localtime')) AS anno, \n" +
     "    SUM(CASE WHEN importo < 0 THEN importo ELSE 0 END) AS totale_negativo,\n" +
     "    SUM(CASE WHEN importo > 0 THEN importo ELSE 0 END) AS totale_positivo\n" +
     "FROM ecofab\n" +
     "WHERE \n" +
-    "    strftime('%Y', datetime(data / 1000, 'unixepoch')) IN ("+stringTosend+")\n" +
+    "    strftime('%Y', datetime(data / 1000, 'unixepoch', 'localtime')) IN ("+stringTosend+")\n" +
     "GROUP BY anno\n" +
     "ORDER BY anno;\n"
   db.all(sql, (err, result) => {
@@ -191,13 +192,13 @@ app.get("/confrontaMesi", (req, res) => {
   })
 
   var sql = "SELECT\n" +
-    "strftime('%m', datetime(data / 1000, 'unixepoch')) AS mese,\n" +
+    "strftime('%m', datetime(data / 1000, 'unixepoch', 'localtime')) AS mese,\n" +
     "  SUM(CASE WHEN importo < 0 THEN importo ELSE 0 END) AS totale_negativo,\n" +
     "  SUM(CASE WHEN importo > 0 THEN importo ELSE 0 END) AS totale_positivo\n" +
     "FROM ecofab\n" +
     "WHERE\n" +
-    "strftime('%Y', datetime(data / 1000, 'unixepoch')) = '"+anno+"'\n" +
-    "AND CAST(strftime('%m', datetime(data / 1000, 'unixepoch')) AS INTEGER) IN (1, 2, 3) -- Passa qui i mesi desiderati\n" +
+    "strftime('%Y', datetime(data / 1000, 'unixepoch', 'localtime')) = '"+anno+"'\n" +
+    "AND CAST(strftime('%m', datetime(data / 1000, 'unixepoch', 'localtime')) AS INTEGER) IN (1, 2, 3) -- Passa qui i mesi desiderati\n" +
     "GROUP BY mese\n" +
     "ORDER BY mese;\n"
   db.all(sql, (err, result) => {

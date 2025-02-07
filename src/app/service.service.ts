@@ -53,7 +53,10 @@ export class ServiceService {
   }
   confrontMonths(anno:string,mesi:string[]){
     return this.http.get(`${this.base}/confrontaMesi?anno=${anno}&mesi=${mesi.toString()}`);
+  }
 
+  generateReport(body:any){
+    return this.http.post(`${this.base}/report`, body);
   }
 
 }

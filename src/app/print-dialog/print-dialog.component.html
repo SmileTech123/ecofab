@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Stampa Report</h2>
+<mat-dialog-content class="mat-typography">
+  <mat-form-field class="example-full-width">
+    <mat-label>Seleziona anno</mat-label>
+    <mat-select [(ngModel)]="anno" (ngModelChange)="getMesi()" >
+      @for(year of anni;track year){
+        <mat-option [value]="year.anno">{{ year.anno }}</mat-option>
+      }
+
+
+    </mat-select>
+  </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Seleziona Mese</mat-label>
+      <mat-select [(ngModel)]="mese" >
+
+        @for(month of mesi;track month){
+          <mat-option [value]="month.mese">{{ month.mese }}</mat-option>
+        }
+
+      </mat-select>
+    </mat-form-field>
+
+
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close]="false">Chiudi</button>
+  <button mat-button  [mat-dialog-close]="true" [disabled]="mese===''" (click)="downloadReport()"  cdkFocusInitial>Scarica</button>
+</mat-dialog-actions>

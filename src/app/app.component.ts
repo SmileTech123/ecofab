@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import {BottomNavComponent} from './bottom-nav/bottom-nav.component';
 import {
@@ -12,6 +12,8 @@ import {MatIcon} from '@angular/material/icon';
 import {MatIconButton} from '@angular/material/button';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatListItem, MatNavList} from '@angular/material/list';
+import {MatDialog} from '@angular/material/dialog';
+import {PrintDialogComponent} from './print-dialog/print-dialog.component';
 
 @Component({
   selector: 'app-root',
@@ -21,4 +23,9 @@ import {MatListItem, MatNavList} from '@angular/material/list';
 })
 export class AppComponent {
   title = 'EcoFab';
+  readonly dialog = inject(MatDialog);
+
+  openReportDialog(){
+    this.dialog.open(PrintDialogComponent)
+  }
 }

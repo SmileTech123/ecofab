@@ -11,6 +11,7 @@ var db = new sqlite3.Database("ecofab.db", (err, room) => {
 const pdf = require("pdf-creator-node");
 var NodeGoogleDrive = require("node-google-drive");
 var bodyParser = require('body-parser')
+const fs = require('fs');
 const path = require("path");
 const distDir = path.join(__dirname, 'dist/eco-fab/browser');
 const YOUR_ROOT_FOLDER = "1D5SaQBg4Nfw3zbzaoUiabGavM49iqj42",
@@ -367,6 +368,7 @@ app.post("/report", (req, res) => {
 
     await pdf.create(document, {});
     res.json({file:body.title+".pdf"});
+    fs.unlinkSync(distDir+"/"+body.title+".pdf");
     console.log(result, err)
 
   })

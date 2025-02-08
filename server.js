@@ -17,103 +17,7 @@ const distDir = path.join(__dirname, 'dist/eco-fab/browser');
 const YOUR_ROOT_FOLDER = "1D5SaQBg4Nfw3zbzaoUiabGavM49iqj42",
   PATH_TO_CREDENTIALS = path.resolve(`${__dirname}/credential.json`);
 
-const REPORTHTML="<!doctype html>\n" +
-  "<html lang=\"it\">\n" +
-  "<head>\n" +
-  "    <meta charset=\"UTF-8\">\n" +
-  "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
-  "    <title>{{TITLE}}</title>\n" +
-  "    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>\n" +
-  "    <style>\n" +
-  "\n" +
-  "\n" +
-  "        body{\n" +
-  "            background-color: #323232;\n" +
-  "            color:white;\n" +
-  "            height: 100vh;\n" +
-  "            font-family: 'Roboto';\n" +
-  "        }\n" +
-  "        table {\n" +
-  "            font-family: arial, sans-serif;\n" +
-  "            border-collapse: collapse;\n" +
-  "            width: 100%;\n" +
-  "        }\n" +
-  "\n" +
-  "        td, th {\n" +
-  "            border: 1px solid #dddddd;\n" +
-  "            text-align: left;\n" +
-  "            padding: 8px;\n" +
-  "        }\n" +
-  "        .category{\n" +
-  "            border-radius: 100px;\n" +
-  "            border: 2px solid;\n" +
-  "            width: 10px;\n" +
-  "            display: inline-block;\n" +
-  "            height: 10px;\n" +
-  "            margin-right: 10px;\n" +
-  "        }\n" +
-  "\n" +
-  "        .C{\n" +
-  "            border-color: white;\n" +
-  "            background-color: white;\n" +
-  "        }\n" +
-  "\n" +
-  "        .B{\n" +
-  "            border-color: #d92534;\n" +
-  "            background-color: #d92534;\n" +
-  "        }\n" +
-  "\n" +
-  "        .A{\n" +
-  "            border-color: #2312e0;\n" +
-  "            background-color: #2312e0;\n" +
-  "        }\n" +
-  "\n" +
-  "        .S{\n" +
-  "            border-color: #13cbcf;\n" +
-  "            background-color: #13cbcf;\n" +
-  "        }\n" +
-  "\n" +
-  "        .D{\n" +
-  "            border-color: #b57dba;\n" +
-  "            background-color: #b57dba;\n" +
-  "        }\n" +
-  "\n" +
-  "        .E{\n" +
-  "            border-color: green;\n" +
-  "            background-color: green;\n" +
-  "        }\n" +
-  "\n" +
-  "    </style>\n" +
-  "</head>\n" +
-  "<body>\n" +
-  "    <h1 style=\"text-align: center\">{{TITLE}}</h1>\n" +
-  "        <div style=\"text-align: center\">\n" +
-  "            <div style=\"display: inline-block;color:green\"><h3>ENTRATE: {{ENTRATE}}€</h3></div>\n" +
-  "            <div style=\"display: inline-block\"><h3>|</h3></div>\n" +
-  "            <div style=\"display: inline-block;color:red\"><h3>SPESE: {{USCITE}}€</h3></div>\n" +
-  "            <div>\n" +
-  "                <div style=\"display: inline-block;margin-right: 10px\"><div class=\"category C\"></div><span>CASA: {{TOTCASA}}€</span></div>\n" +
-  "                <div style=\"display: inline-block;margin-right: 10px\"><div class=\"category B\"></div><span>BOLLETTE: {{TOTBOLLETTE}}€</span></div>\n" +
-  "                <div style=\"display: inline-block;margin-right: 10px\"><div class=\"category A\"></div><span>AUTO: {{TOTAUTO}}€</span></div>\n" +
-  "                <div style=\"display: inline-block;margin-right: 10px\"><div class=\"category S\"></div><span>SPESA: {{TOTSPESA}}€</span></div>\n" +
-  "                <div style=\"display: inline-block;margin-right: 10px\"><div class=\"category D\"></div><span>DIVERTIMENTO: {{TOTDIVERTIMENTO}}€</span></div>\n" +
-  "            </div>\n" +
-  "            <div>\n" +
-  "                <table>\n" +
-  "                    <tr>\n" +
-  "                        <th>DATA</th>\n" +
-  "                        <th>MOVIMENTO</th>\n" +
-  "                        <th>CATEGORIA</th>\n" +
-  "                        <th>IMPORTO</th>\n" +
-  "                    </tr>\n" +
-  "                    {{CONTENUTO}}\n" +
-  "                </table>\n" +
-  "            </div>\n" +
-  "        </div>\n" +
-  "\n" +
-  "\n" +
-  "</body>\n" +
-  "</html>"
+
 app.use(bodyParser.json())
 app.use(
   cors({
@@ -336,64 +240,12 @@ app.post("/report", (req, res) => {
     "AND CAST(strftime('%m', datetime(data / 1000, 'unixepoch', 'localtime')) AS INTEGER) IN ("+body.mese+") -- Passa qui i mesi desiderati\n" +
     "ORDER BY data;\n"
   db.all(sql, async (err, result) => {
-    const sommaEntrate = result
-      .filter(obj => obj.importo >0)  // Filtra gli oggetti
-      .reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-
-    const sommaSpese = result
-      .filter(obj => obj.importo <0)  // Filtra gli oggetti
-      .reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let sumSpesa =result.filter((f) => f.categoria === "S").reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let sumDivertimento =result.filter((f) => f.categoria === "D").reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let sumCasa =result.filter((f) => f.categoria === "C").reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let sumAuto =result.filter((f) => f.categoria === "A").reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let sumBollette =result.filter((f) => f.categoria === "B").reduce((acc, obj) => acc + obj.importo, 0);  // Somma gli importi
-    let tablebody=""
-    result.forEach(e => {
-      let dataTodate = new Date(e.data)
-      let dataformat=("0"+dataTodate.getDate()).substr(-2)+"/"+("0"+dataTodate.getMonth()).substr(-2)+"/"+dataTodate.getFullYear()
-      if(e.importo<0){
-        tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+convertCatToName(e.categoria)+"</td> <td style='color:red'>"+e.importo +"€</td> </tr>"
-      }else{
-        tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+convertCatToName(e.categoria)+"</td> <td style='color:green'>"+e.importo +"€</td> </tr>"
-      }
-    })
-    let newhtml = REPORTHTML.replaceAll("{{TITLE}}", body.title).replaceAll("{{CONTENUTO}}", tablebody).replaceAll("{{ENTRATE}}",sommaEntrate).replaceAll("{{USCITE}}",sommaSpese).replaceAll("{{TOTCASA}}",sumCasa).replaceAll("{{TOTBOLLETTE}}",sumBollette).replaceAll("{{TOTAUTO}}",sumAuto).replaceAll("{{TOTSPESA}}",sumSpesa).replaceAll("{{TOTDIVERTIMENTO}}",sumDivertimento)
-    const document = {
-      html: newhtml,
-      data: {},
-      path: distDir+"/"+body.title+".pdf",
-      type: "",
-    };
-
-    await pdf.create(document, {});
-    res.json({file:body.title+".pdf"});
-    fs.unlinkSync(distDir+"/"+body.title+".pdf");
-    console.log(result, err)
-
+    res.json(result);
   })
 })
 
 
-function convertCatToName(cat){
-  switch(cat){
-    case "S":
-      return "Spesa";
-      break;
-    case "D":
-      return "Divertimento";
-      break;
-    case "C":
-      return "Casa";
-      break;
-    case "A":
-      return "Auto";
-      break;
-    case "B":
-      return "Bollette";
-      break;
-  }
-}
+
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(distDir, 'index.html'));

@@ -164,24 +164,24 @@ export class PrintDialogComponent implements OnInit {
     this.service.generateReport(body).subscribe((result:any)=>{
       const sommaEntrate = result
         .filter((obj: any) => obj.importo >0)  // Filtra gli oggetti
-        .reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
+        .reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
 
       const sommaSpese = result
         .filter((obj: any) => obj.importo <0)  // Filtra gli oggetti
-        .reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
-      let sumSpesa =result.filter((f:any) => f.categoria === "S").reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
-      let sumDivertimento =result.filter((f:any) => f.categoria === "D").reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
-      let sumCasa =result.filter((f:any) => f.categoria === "C").reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
-      let sumAuto =result.filter((f:any) => f.categoria === "A").reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
-      let sumBollette =result.filter((f:any) => f.categoria === "B").reduce((acc:any, obj:any) => acc + obj.importo, 0);  // Somma gli importi
+        .reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
+      let sumSpesa =result.filter((f:any) => f.categoria === "S").reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
+      let sumDivertimento =result.filter((f:any) => f.categoria === "D").reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
+      let sumCasa =result.filter((f:any) => f.categoria === "C").reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
+      let sumAuto =result.filter((f:any) => f.categoria === "A").reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
+      let sumBollette =result.filter((f:any) => f.categoria === "B").reduce((acc:any, obj:any) => acc + obj.importo, 0).toFixed(2);  // Somma gli importi
       let tablebody=""
       result.forEach((e:any) => {
         let dataTodate = new Date(e.data)
         let dataformat=("0"+dataTodate.getDate()).substr(-2)+"/"+("0"+dataTodate.getMonth()).substr(-2)+"/"+dataTodate.getFullYear()
         if(e.importo<0){
-          tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+this.convertCatToName(e.categoria)+"</td> <td style='color:red'>"+e.importo +"€</td> </tr>"
+          tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+this.convertCatToName(e.categoria)+"</td> <td style='color:red'>"+e.importo.toFixed(2) +"€</td> </tr>"
         }else{
-          tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+this.convertCatToName(e.categoria)+"</td> <td style='color:green'>"+e.importo +"€</td> </tr>"
+          tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+this.convertCatToName(e.categoria)+"</td> <td style='color:green'>"+e.importo.toFixed(2) +"€</td> </tr>"
         }
       })
 
@@ -196,10 +196,10 @@ export class PrintDialogComponent implements OnInit {
           hotfixes: ["px_scaling"],
         })
 
-
+      let fileName = "Report "+this.mese+" "+this.anno
       doc.html(htmlObject, {
         callback: function (doc) {
-          doc.save();
+          doc.save(fileName);
         },
         x: 0,
         y: 0,

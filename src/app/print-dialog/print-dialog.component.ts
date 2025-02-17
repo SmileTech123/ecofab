@@ -231,6 +231,8 @@ export class PrintDialogComponent implements OnInit {
       case "B":
         return "Bollette";
         break;
+      case "E":
+        return  "Entrate"
       default:
         return "None";
         break;

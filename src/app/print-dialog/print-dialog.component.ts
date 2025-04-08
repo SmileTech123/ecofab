@@ -177,7 +177,7 @@ export class PrintDialogComponent implements OnInit {
       let tablebody=""
       result.forEach((e:any) => {
         let dataTodate = new Date(e.data)
-        let dataformat=("0"+dataTodate.getDate()).substr(-2)+"/"+("0"+dataTodate.getMonth()).substr(-2)+"/"+dataTodate.getFullYear()
+        let dataformat=("0"+dataTodate.getDate()).substr(-2)+"/"+("0"+(dataTodate.getMonth()+1)).substr(-2)+"/"+dataTodate.getFullYear()
         if(e.importo<0){
           tablebody+="<tr> <td>"+dataformat+"</td> <td>"+e.nome+"</td> <td>"+this.convertCatToName(e.categoria)+"</td> <td style='color:red'>"+e.importo.toFixed(2) +"€</td> </tr>"
         }else{

@@ -60,7 +60,7 @@ export class MovimentiComponent {
 
       dialogRef.afterClosed().subscribe((result: any) => {
         if(result){
-          location.reload();
+          //location.reload();
         }
       });
 
@@ -73,7 +73,7 @@ export class MovimentiComponent {
       dialogRef.afterClosed().subscribe((result: any) => {
         if(result){
           this.service.deleteMovement(movementId).subscribe((result:any)=>{
-            location.reload();
+            //location.reload();
           })
         }
       });
